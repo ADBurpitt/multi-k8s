@@ -18,7 +18,7 @@ after_success:
 
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   
-  - docker push adburpitt/multi-client ./client
-  - docker push adburpitt/multi-nginx ./nginx
-  - docker push adburpitt/multi-server ./server
-  - docker push adburpitt/multi-worker ./worker
+  - docker push adburpitt/multi-client
+  - docker push adburpitt/multi-nginx
+  - docker push adburpitt/multi-server
+  - docker push adburpitt/multi-worker
