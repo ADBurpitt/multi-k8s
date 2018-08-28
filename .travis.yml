@@ -1,0 +1,24 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t adb/react-test -f ./client/Dockerfile.dev ./client
+  # - docker build OTHER THING TO TEST
+  
+script:
+  - docker run adb/react-test npm test -- --coverage
+  # - docker run OTHER THING TESTPLS
+
+after_success:
+  - docker build -t adb/multi-client ./client
+  - docker build -t adb/multi-nginx ./nginx
+  - docker build -t adb/multi-server ./server
+  - docker build -t adb/multi-worker ./worker
+
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  
+  - docker push adb/multi-client ./client
+  - docker push adb/multi-nginx ./nginx
+  - docker push adb/multi-server ./server
+  - docker push adb/multi-worker ./worker
